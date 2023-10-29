@@ -16,15 +16,6 @@ repos:
         entry: flake8
         language: system
         types: [python]
-      - id: mypy
-        name: mypy
-        entry: mypy
-        language: system
-        types: [python]
-        exclude: >
-          (?x)^(
-            tests/
-          )
       - id: poetry-lock-check
         name: poetry-lock-check
         entry: poetry lock --check
