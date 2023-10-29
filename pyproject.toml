@@ -8,7 +8,18 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.11"
 django = "^4.2.6"
+django-registration = "^3.4"
+django-bootstrap4 = "^23.2"
+psycopg2-binary = "^2.9.9"
 
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.10.1"
+isort = "^5.12.0"
+flake8 = "^6.1.0"
+mypy = "^1.6.1"
+pre-commit = "^3.5.0"
+poetry-lock-check = "^0.1.0"
 
 [build-system]
 requires = ["poetry-core"]
