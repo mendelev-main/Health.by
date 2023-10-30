@@ -1,13 +1,62 @@
 {% extends 'base.html' %}
 
 {% block content %}
+{% load static %}
 
-    </form>
-    {% load static %}
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Submit">
-    </form>
+<style>
+    .form-container {
+        background-color: #f0f0f0;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        margin: 40px auto;
+    }
+
+    .submit-button {
+        background-color: rgba(0, 248, 219, 0.71);
+        color: #000000;
+        border-radius: 10px;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+        transition: 0.3s;
+        width: 100%; /* Устанавливаем ширину кнопки в 100% */
+    }
+
+    .submit-button:hover {
+        background-color: #0056b3;
+    }
+
+    .form-container input[type="text"],
+    .form-container input[type="date"],
+    .form-container select {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+</style>
+
+<div class="container">
+    <div class="form-container">
+        <h2 class="mb-4">Медицинская карта</h2>
+        <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="text" name="first_name" placeholder="Имя">
+    <input type="text" name="last_name" placeholder="Фамилия">
+    <input type="text" name="surname" placeholder="Отчество">
+    <input type="date" name="date_of_birth" placeholder="Дата рождения">
+    <select name="gender" placeholder="Пол">
+        <option value="" disabled selected>Пол</option>
+        <option value="M">Мужской</option>
+        <option value="F">Женский</option>
+    </select>
+    <input type="text" name="registration" placeholder="Регистрация">
+    <input type="file" name="image" accept="image/*"> <!-- Image upload field -->
+    <input type="submit" class="submit-button" value="Submit">
+</form>
+    </div>
+</div>
 
 {% endblock %}

@@ -1,6 +1,64 @@
 {% extends 'base.html' %}
 
-
 {% block content %}
-    <h3> Welcome {{ profile.first_name }} </h3>
+    <style>
+        .medical-record {
+            background-color: #f0f0f0;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .profile-image {
+            border-radius: 50%;
+            overflow: hidden;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .patient-info {
+            margin-top: 20px;
+        }
+
+        .field-label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .field-value {
+            margin-bottom: 15px;
+        }
+
+        /* Add custom style for the button to align it to the right */
+        .create-appointment-button {
+            text-align: right;
+        }
+    </style>
+
+    <div class="container mt-4">
+        <div class="medical-record">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="profile-image" style="border-radius: 5%;">
+                        <img src="{{ profile.image.url }}" alt="User Photo" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                </div>
+                <div class="col-md-8 patient-info">
+                    <h3 class="name">
+                        {{ profile.last_name }} {{ profile.first_name }} {{ profile.surname }}
+                    </h3>
+                    <div class="field-label">Дата рождения:</div>
+                    <div class="field-value">{{ profile.date_of_birth }} Возраст {{ profile.age }}</div>
+                    <div class="field-label">Пол:</div>
+                    <div class="field-value">{{ profile.gender }}</div>
+                    <div class="field-label">Регистрация:</div>
+                    <div class="field-value">{{ profile.registration }}</div>
+                    <!-- Add a custom class to align the button to the right -->
+                    <div class="create-appointment-button">
+                        <a class="btn btn-primary" href="#" role="button">Создать обращение</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock content %}

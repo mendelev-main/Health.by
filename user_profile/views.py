@@ -8,6 +8,7 @@ from .models import Profile
 class ProfileCreateView(LoginRequiredMixin, generic.CreateView):
     model = Profile
     fields = [
+        "image",
         "first_name",
         "last_name",
         "surname",

@@ -1,38 +1,108 @@
 {% extends "base.html" %}
 
 {% block content %}
+{% load static %}
 
-{% if form.errors %}
-<p>Your username and password didn't match. Please try again.</p>
-{% endif %}
+<style>
+    .btn-register {
+        background-color: #969595; /* Желаемый цвет */
+        color: #ffffff;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        cursor: pointer;
+    }
 
-{% if next %}
-    {% if user.is_authenticated %}
-    <p>Your account doesn't have access to this page. To proceed,
-    please login with an account that has access.</p>
-    {% else %}
-    <p>Please login to see this page.</p>
-    {% endif %}
-{% endif %}
+    .btn-register:hover {
+        background-color: #007bff; /* Желаемый цвет при наведении */
+    }
 
-<form method="post" action="{% url 'login' %}">
-{% csrf_token %}
-<table>
-<tr>
-    <td>{{ form.username.label_tag }}</td>
-    <td>{{ form.username }}</td>
-</tr>
-<tr>
-    <td>{{ form.password.label_tag }}</td>
-    <td>{{ form.password }}</td>
-</tr>
-</table>
+    .form-container {
+        background-color: #f0f0f0;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        margin: 40px auto;
+    }
 
-<input type="submit" value="login">
-<input type="hidden" name="next" value="{{ next }}">
-</form>
+    .form-container h2 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
 
-{# Assumes you set up the password_reset view in your URLconf #}
-<p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-container input[type="text"],
+    .form-container input[type="password"] {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        width: calc(100% - 22px);
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: #ffffff;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        cursor: pointer;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+    .lost-password-link {
+        text-decoration: none;
+        color: #007bff;
+    }
+
+    .lost-password-link:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<div class="container">
+    <div class="form-container">
+        <h2>Login</h2>
+        {% if form.errors %}
+            <div class="alert alert-danger">
+                Your username and password didn't match. Please try again.
+            </div>
+        {% endif %}
+
+        {% if next %}
+            {% if user.is_authenticated %}
+                <div class="alert alert-warning">
+                    Your account doesn't have access to this page. To proceed, please login with an account that has access.
+                </div>
+            {% else %}
+                <div class="alert alert-info">
+                    Please login to see this page.
+                </div>
+            {% endif %}
+        {% endif %}
+
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form.username.label_tag }}
+                <input type="text" class="form-control" name="username">
+            </div>
+            <div class="form-group">
+                {{ form.password.label_tag }}
+                <input type="password" class="form-control" name="password">
+            </div>
+            <button type="submit" class="btn btn-primary">Войти</button>
+            <a href="/accounts/register/" class="btn btn-register">Регистрация</a>
+            <input type="hidden" name="next" value="{{ next }}">
+        </form>
+
+        <p><a href="{% url 'password_reset' %}" class="lost-password-link">Забыли пароль ?</a></p>
+    </div>
+</div>
 
 {% endblock %}

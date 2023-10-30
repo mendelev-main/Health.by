@@ -1,3 +1,5 @@
+import datetime
+
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.signals import post_save
@@ -9,6 +11,7 @@ class Profile(models.Model):
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, primary_key=True, related_name='profile'
     )
+    image = models.ImageField(upload_to="profile_images/", null=True)
     first_name = models.CharField('Имя', max_length=20)
     last_name = models.CharField('Фамилия', max_length=20)
     surname = models.CharField('Отчество', max_length=20)
@@ -26,6 +29,17 @@ class Profile(models.Model):
 
     def get_absolute_url(self) -> str:
         return reverse("user_profile:detail_profile", kwargs={"pk": self.pk})
+
+    @property
+    def age(self) -> int:
+        birthday = datetime.datetime.strptime(self.date_of_birth, '%Y-%m-%d').date()
+        today = datetime.date.today()
+        age = (
+            today.year
+            - birthday.year
+            - ((today.month, today.day) < (birthday.month, birthday.day))
+        )
+        return age
 
 
 @receiver(post_save, sender=User)

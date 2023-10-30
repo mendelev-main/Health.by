@@ -133,3 +133,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGOUT_REDIRECT_URL = "/"
 LOGIN_REDIRECT_URL = "/user_profile/create/"
+
+MEDIA_URL = 'profile_images/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, '')

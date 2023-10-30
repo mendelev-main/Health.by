@@ -12,6 +12,7 @@ django-registration = "^3.4"
 django-bootstrap4 = "^23.2"
 psycopg2-binary = "^2.9.9"
 pre-commit-hooks = "^4.5.0"
+pillow = "^10.1.0"
 
 
 [tool.poetry.group.dev.dependencies]

@@ -8,3 +8,61 @@
         <input type="submit" value="Submit">
     </form>
 {% endblock %}
+
+{#{% extends 'base.html' %}#}
+{##}
+{#{% block content %}#}
+{#{% load static %}#}
+
+{#<style>#}
+{#    .form-container {#}
+{#        background-color: #f0f0f0;#}
+{#        padding: 20px;#}
+{#        border-radius: 10px;#}
+{#        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);#}
+{#        margin: 40px auto;#}
+{#    }#}
+{##}
+{#    .submit-button {#}
+{#        background-color: rgba(0, 248, 219, 0.71);#}
+{#        color: #000000;#}
+{#        border-radius: 10px;#}
+{#        padding: 10px 20px;#}
+{#        border: none;#}
+{#        cursor: pointer;#}
+{#        transition: 0.3s;#}
+{#        width: 100%; /* Устанавливаем ширину кнопки в 100% */#}
+{#    }#}
+{##}
+{#    .submit-button:hover {#}
+{#        background-color: #0056b3;#}
+{#    }#}
+{##}
+{#    .form-container input[type="text"],#}
+{#    .form-container input[type="date"],#}
+{#    .form-container input[type="email"],#}
+{#    .form-container input[type="password"],#}
+{#    .form-container select {#}
+{#        padding: 10px;#}
+{#        border: 1px solid #ccc;#}
+{#        border-radius: 10px;#}
+{#        width: 100%;#}
+{#        margin-bottom: 10px;#}
+{#    }#}
+{#</style>#}
+{##}
+{#<div class="container">#}
+{#    <div class="form-container">#}
+{#        <h2 class="mb-4">Регистрация</h2>#}
+{#        <form method="post" enctype="multipart/form-data">#}
+{#        {% csrf_token %}#}
+{#            <input type="text" name="username" placeholder="Username">#}
+{#            <input type="email" name="email_address" placeholder="Email">#}
+{#            <input type="password" name="first_name" placeholder="Password">#}
+{#            <input type="password" name="password" placeholder="Password confirmation">#}
+{#            <input type="submit" class="password_confirmation" value="Submit">#}
+{#        </form>#}
+{#    </div>#}
+{#</div>#}
+{##}
+{#{% endblock %}#}
