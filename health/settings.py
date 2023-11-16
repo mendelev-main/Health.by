@@ -31,7 +31,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'ckeditor',
     'bootstrap4',
+    'news.apps.NewsConfig',
     'user_profile.apps.UserProfileConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -131,8 +133,8 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGOUT_REDIRECT_URL = "/"
-LOGIN_REDIRECT_URL = "/user_profile/create/"
+LOGOUT_REDIRECT_URL = "/accounts/login/"
+LOGIN_REDIRECT_URL = ""
 
 MEDIA_URL = 'profile_images/'
 

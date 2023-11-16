@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+    <style>
+        .form-container {
+            background-color: #f0f0f0;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            margin: 40px auto;
+        }
+
+        .submit-button {
+            background-color: rgba(0, 248, 219, 0.71);
+            color: #000000;
+            border-radius: 10px;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 100%;
+        }
+
+        .submit-button:hover {
+            background-color: #0056b3;
+        }
+
+        .form-container input[type="text"],
+        .form-container select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .tag-container {
+            margin-bottom: 10px;
+        }
+
+        .tag-item {
+            margin-right: 10px;
+            margin-bottom: 10px;
+            display: flex;
+        }
+
+        .tag-input {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            width: calc(100% - 28px);
+            outline: none;
+        }
+
+        .tag-close {
+            cursor: pointer;
+            font-weight: bold;
+            color: red;
+            margin-left: 6px;
+            border: none;
+            background: none;
+        }
+
+        .tag-button {
+            margin-top: 10px;
+        }
+    </style>
+
+    <script>
+        function addTag() {
+            const tagContainer = document.getElementById("tag-container");
+            const tagItem = document.createElement("div");
+            tagItem.className = "tag-item";
+
+            const newTagInput = document.createElement("input");
+            newTagInput.type = "text";
+            newTagInput.name = "tags";
+            newTagInput.placeholder = "Добавить тег";
+            newTagInput.className = "tag-input";
+
+            const tagClose = document.createElement("button");
+            tagClose.innerHTML = "🗑️";
+            tagClose.className = "tag-close";
+            tagClose.onclick = function () {
+                tagContainer.removeChild(tagItem);
+            };
+
+            tagItem.appendChild(newTagInput);
+            tagItem.appendChild(tagClose);
+            tagContainer.appendChild(tagItem);
+        }
+    </script>
+
+    <div class="container">
+        <div class="form-container">
+            <h2 class="mb-4">News</h2>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="text" name="title" placeholder="Тема" class="form-control">
+                <div class="form-group mb-3">
+                    <label for="{{ form.body.id_for_label }}"></label>
+                    {{ form.body }}
+                </div>
+
+                <div class="tag-container" id="tag-container">
+                    <div class="tag-button">
+                        <button type="button" class="submit-button" onclick="addTag()">Создать тег</button>
+                    </div>
+                </div>
+                <button type="submit" class="submit-button">Опубликовать новость</button>
+            </form>
+        </div>
+        <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+        <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+    </div>
+
+{% endblock %}

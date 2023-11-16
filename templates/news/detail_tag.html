@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+<title>{% block title %} Tag {{ tag.id }} {% endblock %}</title>
+
+{% block content %}
+
+    <div class="card">
+        <div class="card-header">
+            <h1>{{ tag.title }}</h1>
+            <ul>
+                Posts:{% for post in tag.posts.all %}
+                    <a href="{% url 'blog:detail' post.id %}"
+                           class="d-inline-flex focus-ring py-1 px-2 text-decoration-none border rounded-2"
+                           style="--bs-focus-ring-x: 10px; --bs-focus-ring-y: 10px; --bs-focus-ring-blur: 4px">
+                            {{ post.title }}
+                        </a>
+                {% endfor %}
+            </ul>
+
+
+        </div>
+    </div>
+
+
+
+
+{% endblock %}

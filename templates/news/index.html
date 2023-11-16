@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block title %}News{% endblock %}
+
+{% block content %}
+    <style>
+        .news-container {
+            background-color: #f0f0f0;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            margin: 80px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            max-width: 100%;
+            height: 300px;
+            margin-bottom: 20px;
+        }
+
+        .news-title {
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            text-decoration: none;
+            color: black;
+        }
+
+        .news-rating {
+            font-size: 16px;
+            color: black;
+        }
+
+        .create-news-button {
+            background-color: #007BFF;
+            color: #fff;
+            padding: 10px 100px;
+            border: none;
+            border-radius: 20px;
+            margin: 0 auto;
+            display: block;
+        }
+    </style>
+
+    <div class="container-fluid mt-4">
+        <div class="row justify-content-center">
+            <div class="col-12 text-center">
+                <a href="/create/" class="d-inline-flex text-decoration-none">
+                    <button class="create-news-button">Create News</button>
+                </a>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            {% if news %}
+                {% for new in news %}
+                    <a href="{% url 'news:detail' new.id %}" class="d-inline-flex text-decoration-none">
+                        <div class="news-container">
+                            <div class="news-title">{{ new.title }}</div>
+                            <div class="news-rating">{{ new.rating }}</div>
+                        </div>
+                    </a>
+                {% endfor %}
+            {% else %}
+                <p class="text-center">No posts are available.</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

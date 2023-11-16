@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %} News {{ news.id }} {% endblock %}
+
+{% block content %}
+<style>
+    .rounded-card {
+        border-radius: 15px !important;
+    }
+
+    .btn-thumb {
+        background-color: #6C757D;
+        color: #FFFFFF;
+        transition: background-color 0.3s;
+    }
+
+    .btn-thumb:hover {
+        background-color: #5A6268;
+    }
+
+    .btn-like {
+        background-color: #4CAF50;
+    }
+
+    .btn-dislike {
+        background-color: #FF5722;
+    }
+</style>
+
+<div class="container mt-4">
+    <div class="card rounded-card">
+        <div class="card-header">
+            <h1>{{ news.title }}</h1>
+        </div>
+        <div class="card-body">
+            <p>{{ news.body | safe }}</p>
+            <ul class="list-inline">
+                Tags: {% for tag in news.tag.all %}
+                <li class="list-inline-item">
+                    <a href="{% url 'blog:detail_tag' tag.id %}" class="btn btn-outline-primary">{{ tag.title }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+            <div class="text-center mt-3">
+                <form action="{% url 'news:upvote' news.pk %}" method="post" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-thumb btn-like">
+                        <i class="bi bi-hand-thumbs-up"></i> Like {{ news.upvote }}
+                    </button>
+                </form>
+                <form action="{% url 'news:downvote' news.pk %}" method="post" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-thumb btn-dislike">
+                        <i class="bi bi-hand-thumbs-down"></i> Dislike {{ news.downvote }}
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

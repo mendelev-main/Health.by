@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <style>
+        .profile-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            margin: 20px;
+            padding: 20px;
+            transition: background-color 0.4s;
+            text-decoration: none;
+            color: black;
+            width: calc(100% - 40px);
+            max-width: 1000px;
+        }
+
+        .profile-container:hover {
+            background-color: rgba(65, 232, 192, 0.55);
+        }
+
+        .profile-image {
+            border-radius: 10%;
+            overflow: hidden;
+            width: 40%;
+            max-width: 100px;
+            margin-right: 10px;
+        }
+
+        .profile-details {
+            flex-grow: 1;
+        }
+
+        .profile-details h2,
+        .profile-details h4 {
+            margin: 5px 0;
+        }
+    </style>
+
+    {% if object_list %}
+        {% for profile_doctor in object_list %}
+            <div class="profile-container">
+                <a href="{{ profile_doctor.get_absolute_url }}" style="text-decoration: none; color: black;">
+                    <div class="profile-image">
+                        <img src="{{ profile_doctor.image.url }}" alt="User Photo"
+                             style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div class="profile-details">
+                        <h2>{{ profile_doctor.last_name }} {{ profile_doctor.first_name }} {{ profile_doctor.surname }}</h2>
+                        <h4>Врач: {{ profile_doctor.speciality }}</h4>
+                        <h4>Телефон: {{ profile_doctor.phone_number }}</h4>
+                        <h4>Возраст: {{ profile_doctor.age }}</h4>
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Не найдено публикаций по вашему запросу<br>Попробуйте повторить запрос с другой формулировкой</p>
+    {% endif %}
+{% endblock %}
