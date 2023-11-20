@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <style>
+        .profile-container,
+        .treatment-container {
+            background-color: #f0f0f0;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            margin-top: 15px;
+        }
+
+        .profile-image {
+            border-radius: 50%;
+            overflow: hidden;
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .patient-info {
+            margin-top: 20px;
+            position: relative;
+        }
+
+        .field-label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .field-value {
+            margin-bottom: 5px;
+        }
+
+        .create-appointment-button {
+            text-align: right;
+        }
+
+        .logout-button {
+
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            margin-top: 10px;
+            margin-right: 10px;
+        }
+
+        .treatment-item {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #333;
+            transition: background-color 0.3s ease;
+            display: block;
+        }
+
+        .treatment-item:hover {
+            background-color: #e0e0e0;
+        }
+
+        .treatment-link {
+            font-weight: bold;
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .confirm-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+    </style>
+
+    <div class="container mt-4">
+        <div class="profile-container" {% if profile.user.is_staff %}
+             style="background-color: rgba(86,201,227,0.37);" {% endif %}>
+            <div class="row">
+                <div class="col-md-4">
+                    {% if profile.image %}
+
+                        <div class="profile-image" style="border-radius: 5%;">
+                            <img src="{{ profile.image.url }}" alt="User Photo"
+                                 style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-md-8 patient-info">
+                    <h3 class="name">
+                        {{ profile.last_name }} {{ profile.first_name }} {{ profile.surname }}
+                    </h3>
+                    <div class="field-label">ID Карты {{ profile.pk }}</div>
+                    <div class="field-label">Дата рождения:</div>
+                    <div class="field-value">{{ profile.date_of_birth }} Полных лет {{ profile.age }}</div>
+                    <div class="field-label">Пол:</div>
+                    <div class="field-value">
+                        {% if profile.gender == 'M' %}
+                            Мужчина
+                        {% elif profile.gender == 'F' %}
+                            Женщина
+                        {% else %}
+                            <!-- Добавьте обработку для других значений, если необходимо -->
+                        {% endif %}
+                    </div>
+
+                    <div class="field-label">Регистрация:</div>
+                    <div class="field-value">{{ profile.registration }}</div>
+                    <div class="field-label">Индификационный номер:</div>
+                    <div class="field-value">{{ profile.passport_number }}</div>
+                    <div class="field-label">Номер телефона:</div>
+                    <div class="field-value">{{ profile.phone_number }}</div>
+                    <div class="field-label">Почта:</div>
+                    <div class="field-value">{{ profile.user.email }}</div>
+                    {% if request.user.id == profile.user_id %}
+                        <div class="logout-button">
+                            <a class="btn btn-danger" href="/accounts/logout/" role="button">Выйти из профиля</a>
+                        </div>
+                    {% endif %}
+                    {% if request.user.is_staff %}
+                        <div class="create-appointment-button">
+                            <a class="btn btn-primary" href="create_treatment/" role="button">Создать обращение</a>
+                        </div>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+
+        <div class="treatment-container">
+            <h2 class="text-center mb-4">Список обращений:</h2>
+            {% for treatment in treatments %}
+                <a class="treatment-item" href="{% url 'user_profile:detail_treatment' treatment.id %}">
+                    <p><strong>Дата обращения:</strong> {{ treatment.date }} </p>
+                    <p>
+                        <strong>Врач:</strong> {{ treatment.creator.last_name }} {{ treatment.creator.first_name }} {{ treatment.creator.surname }}
+                    </p>
+                    <p class="treatment-link">Детальный просмотр</p>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock content %}

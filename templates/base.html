@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>{% block title %} {% endblock %}</title>
+</head>
+<style>
+    .navbar-card {
+        background-color: #f0f0f0;
+        padding: 2px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        width: 100%;
+    }
+
+    .navbar-card .nav-link {
+        color: #000;
+    }
+
+    .navbar-card .nav-link:hover {
+        color: #007bff;
+    }
+
+    .navbar-card .btn {
+        background-color: transparent;
+        border-color: transparent;
+        font-size: 16px;
+    }
+
+    .navbar-card .btn-user {
+        background-color: #0056b3;
+        color: #fff;
+        font-size: 18px;
+        border-radius: 10px;
+        padding: 10px 20px;
+    }
+</style>
+<div class="container">
+    <div class="navbar-card">
+        <ul class="nav justify-content-between">
+
+            <li class="nav-item">
+                <a class="nav-link" href="http://127.0.0.1:8000/"> News </a>
+            </li>
+            {% if user.is_staff %}
+                <form action="{% url 'user_profile:index' %}" class="navbar-form navbar-left" method="get">
+                    <div class="form-group">
+                        <input type="text" name="q" class="form-control" placeholder="Поиск пациента">
+                    </div>
+                </form>
+            {% elif not user.is_staff %}
+                <form action="{% url 'user_profile:search_doctor' %}" class="navbar-form navbar-left" method="get">
+                    <div class="form-group">
+                        <input type="text" name="q" class="form-control" placeholder="Поиск врача">
+                    </div>
+                </form>
+
+            {% endif %}
+            <li class="nav-item">
+                {% if user.is_staff and user.profile_doctor.first_name %}
+                    <a class="nav-link" aria-current="page"
+                       href="/user_profile/doctor/{{ user.profile_doctor.id }}/"> {{ user.profile_doctor.last_name }}
+                        {{ user.profile_doctor.first_name|slice:":1" }}. {{ user.profile_doctor.surname|slice:":1" }}.</a>
+                {% elif not user.is_staff and user.profile.first_name %}
+                    <a class="nav-link" aria-current="page"
+                       href="/user_profile/{{ user.profile.pk }}/"> {{ user.profile.last_name }}
+                        {{ user.profile.first_name|slice:":1" }}. {{ user.profile.surname|slice:":1" }}.</a>
+                {% elif user.is_staff and not user.profile_doctor.first_name %}
+                    <a class="nav-link" aria-current="page" href="/user_profile/create_doctor/"> Crete Doctor </a>
+                {% else %}
+                    <a class="nav-link" aria-current="page" href="/user_profile/create/"> Statr using </a>
+                {% endif %}
+            </li>
+        </ul>
+    </div>
+</div>
+{% block content %}
+{% endblock %}
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+</html>

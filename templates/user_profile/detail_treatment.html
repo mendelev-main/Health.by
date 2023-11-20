@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h1>Обращение {{ treatment.id }}</h1>
+            </div>
+
+            <div class="card-body">
+                <p><strong>Врач:</strong>
+                    <a href="{% url 'user_profile:detail_profile_doctor' treatment.creator.id %}">{{ treatment.creator.last_name }} {{ treatment.creator.first_name }} {{ treatment.creator.surname }}
+                    </a>
+                </p>
+                <p><strong>Пациент:</strong> <a
+                        href="{% url 'user_profile:detail_profile' treatment.patient.pk %}">{{ treatment.patient.last_name }} {{ treatment.patient.first_name }} {{ treatment.patient.surname }}</a>
+                </p>
+                <p><strong>Дата создания:</strong> {{ treatment.date }}</p>
+                <p><strong>Временная не трудоспособность:</strong> {{ treatment.disability }}</p>
+                <p><strong>Чесотка:</strong> {% if treatment.scabies %}Да{% else %}Нет{% endif %}</p>
+                <p><strong>Педикулез:</strong> {% if treatment.pedeculosis %}Да{% else %}Нет{% endif %}</p>
+                <p><strong>Режим:</strong> {{ treatment.mode }}</p>
+                <p><strong>Температура:</strong> {{ treatment.temperature }}</p>
+                <p><strong>Артериальное давление:</strong> {{ treatment.arterial_pressure }}</p>
+                <p><strong>Пульс:</strong> {{ treatment.pulse }}</p>
+                <p><strong>Жалобы:</strong> {{ treatment.complaints }}</p>
+                <p><strong>Анамнез:</strong> {{ treatment.anamnesis }}</p>
+                <p><strong>Общее состояние:</strong> {{ treatment.general_state }}</p>
+                <p><strong>Кожные покровы:</strong> {{ treatment.skin }}</p>
+                <p><strong>Перитонеальные симптомы:</strong> {{ treatment.peritoneal_symptoms }}</p>
+                <p><strong>Артериальная пульсация:</strong> {{ treatment.arterial_pulsation }}</p>
+                <p><strong>Стул нарушен:</strong> {% if treatment.stool %}Да{% else %}Нет{% endif %}</p>
+                <p><strong>Мочеиспускание нарушено:</strong> {% if treatment.urination %}Да{% else %}Нет{% endif %}</p>
+                <p><strong>Диагноз:</strong> {{ treatment.diagnosis }}</p>
+                <p><strong>Лечение:</strong> {{ treatment.treatment }}</p>
+                <p><strong>Рекомендации:</strong> {{ treatment.recommendations }}</p>
+                <p>Обследования:</p>
+                <p><strong>ОАК:</strong> {% if treatment.test_oak %}Да{% else %}Нет{% endif %}</p>
+                <p><strong>ОАМ:</strong> {% if treatment.test_oam %}Да{% else %}Нет{% endif %}</p>
+                <p><strong>БАК:</strong> {% if treatment.test_bak %}Да{% else %}Нет{% endif %}</p>
+                <p><strong>Коагудограмма:</strong> {% if treatment.test_kog %}Да{% else %}Нет{% endif %}</p>
+                <p><strong>Ренген:</strong> {% if treatment.test_x_ray %}Да{% else %}Нет{% endif %}</p>
+                <p><strong>ЭКГ:</strong> {% if treatment.test_ecg %}Да{% else %}Нет{% endif %}</p>
+                <p><strong>УЗИ:</strong> {% if treatment.test_ultrasound %}Да{% else %}Нет{% endif %}</p>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

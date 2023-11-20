@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+<title>{% block title %}TAG{% endblock %}</title>
+
+{% block content %}
+
+
+        {% if tags %}
+        <ul>
+            {% for tag in tags %}
+                <a href="{% url 'news:detail_tag' tag.id %}"
+                   class="d-inline-flex focus-ring py-1 px-2 text-decoration-none border rounded-2"
+                   style="--bs-focus-ring-x: 10px; --bs-focus-ring-y: 10px; --bs-focus-ring-blur: 4px">
+                    {{ tag.title }}
+                </a>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No posts are available.</p>
+    {% endif %}
+{% endblock %}

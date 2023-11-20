@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <style>
+        .container {
+            background-color: #f0f0f0;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            margin-top: 15px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        input[type="submit"] {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+
+    <div class="container mt-4">
+        <h2>Создание медицинского обращения</h2>
+        <form method="post">
+            {% csrf_token %}
+            <label for="id_disability">Временная не трудоспособность:</label>
+            {{ form.disability }}
+
+            <label for="id_scabies">Чесотка:</label>
+            {{ form.scabies }}
+
+            <label for="id_pedeculosis">Педикулез:</label>
+            {{ form.pedeculosis }}
+
+            <label for="id_mode">Режим:</label>
+            {{ form.mode }}
+
+            <label for="id_temperature">Температура:</label>
+            {{ form.temperature }}
+
+            <label for="id_arterial_pressure">Артериальное давление:</label>
+            {{ form.arterial_pressure }}
+
+            <label for="id_pulse">Пульс:</label>
+            {{ form.pulse }}
+
+            <label for="id_complaints">Жалобы:</label>
+            {{ form.complaints }}
+
+            <label for="id_anamnesis">Анамнез:</label>
+            {{ form.anamnesis }}
+
+            <label for="id_general_state">Общее состояние:</label>
+            {{ form.general_state }}
+
+            <label for="id_skin">Кожные покровы:</label>
+            {{ form.skin }}
+
+            <label for="id_peritoneal_symptoms">Перитонеальные симптомы:</label>
+            {{ form.peritoneal_symptoms }}
+
+
+            <label for="id_arterial_pulsation">Артериальная пульсация:</label>
+            {{ form.arterial_pulsation }}
+
+            <label for="id_stool">Стул нарушен:</label>
+            {{ form.stool }}
+
+            <label for="id_urination">Мочеиспускание нарушено:</label>
+            {{ form.urination }}
+
+            <label for="id_diagnosis">Диагноз:</label>
+            {{ form.diagnosis }}
+
+            <label for="id_treatment">Лечение:</label>
+            {{ form.treatment }}
+
+            <label for="id_recommendations">Рекомендации:</label>
+            {{ form.recommendations }}
+
+            <label for="id_test_oak">ОАК:</label>
+            {{ form.test_oak }}
+
+            <label for="id_test_oam">ОАМ:</label>
+            {{ form.test_oam }}
+
+            <label for="id_test_bak">БАК:</label>
+            {{ form.test_bak }}
+
+            <label for="id_test_kog">Коагудограмма:</label>
+            {{ form.test_kog }}
+
+            <label for="id_test_x_ray">Ренген:</label>
+            {{ form.test_x_ray }}
+
+            <label for="id_test_ecg">ЭКГ:</label>
+            {{ form.test_ecg }}
+
+            <label for="id_test_ultrasound">УЗИ:</label>
+            {{ form.test_ultrasound }}
+
+
+            <input type="submit" value="Создать">
+        </form>
+    </div>
+{% endblock %}
