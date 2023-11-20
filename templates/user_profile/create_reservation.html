@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    .container {
+        max-width: 800px;
+        margin: auto;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        padding: 20px;
+        background-color: #fff;
+        margin-top: 20px;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    label {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    select {
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    input[type="submit"] {
+        background-color: #4caf50;
+        color: #fff;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+        background-color: #45a049;
+    }
+</style>
+
+<div class="container">
+    <h2>Выбор дня бронирования</h2>
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="{{ form.booking_date.id_for_label }}">Даты:</label>
+            {{ form.booking_date }}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Перейти к выбору времени</button>
+    </form>
+
+    <script>
+
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0');
+        var yyyy = today.getFullYear();
+
+        today = yyyy + '-' + mm + '-' + dd;
+        document.getElementById("id_booking_date").min = today;
+
+
+        var maxDate = new Date();
+        maxDate.setMonth(maxDate.getMonth() + 1);
+        var maxDateISOString = maxDate.toISOString().split('T')[0];
+        document.getElementById("id_booking_date").max = maxDateISOString;
+
+        // Disable Saturdays (day 6) and Sundays (day 0)
+        var input = document.getElementById("id_booking_date");
+        input.addEventListener('input', function() {
+            var selectedDate = new Date(this.value);
+            if (selectedDate.getDay() === 6 || selectedDate.getDay() === 0) {
+                alert("Докор не принемает по выходным!");
+                this.value = '';
+            }
+        });
+    </script>
+</div>
+{% endblock %}

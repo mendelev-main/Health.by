@@ -5,6 +5,21 @@ from . import views
 
 app_name = "user_profile"
 urlpatterns = [
+    path(
+        "reservation/<int:pk>",
+        views.ReservationDetailView.as_view(),
+        name="detail_reservation",
+    ),
+    path(
+        'create_reservation_second_step/<pk>/',
+        views.AvailableTimeSelectView.as_view(),
+        name='create_reservation_second_step',
+    ),
+    path(
+        'doctor/<int:pk>/create_reservation/',
+        views.ReservationCreateView.as_view(),
+        name='create_reservation',
+    ),
     path('search_doctor/', views.SearchDoctorView.as_view(), name='search_doctor'),
     path('search/', views.SearchView.as_view(), name='index'),
     path("create/", views.ProfileCreateView.as_view(), name="create_profile"),

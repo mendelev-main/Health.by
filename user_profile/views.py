@@ -1,12 +1,15 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.core.exceptions import ValidationError
+from django.db import transaction
 from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.views import generic
 from django.views.generic import ListView
 
-from .models import Profile, ProfileDoctor, Treatment
+from .forms import AvailableTimeSelectForm, ReservationCreateForm
+from .models import Profile, ProfileDoctor, Reservation, Treatment
 
 
 class ProfileCreateView(LoginRequiredMixin, generic.CreateView):
@@ -38,6 +41,7 @@ class ProfileDoctorCreateView(
         "first_name",
         "last_name",
         "surname",
+        "speciality",
         "date_of_birth",
         "phone_number",
     ]
@@ -181,3 +185,65 @@ class SearchDoctorView(ListView):
 
     def test_func(self):
         return not self.request.user.is_staff
+
+
+class ReservationCreateView(generic.CreateView):
+    model = Reservation
+    form_class = ReservationCreateForm
+    template_name = 'user_profile/create_reservation.html'
+
+    def form_valid(self, form):
+        reserved_user = self.request.user.profile
+        reserved_doctor_pk = self.kwargs['pk']
+        reserved_doctor = get_object_or_404(ProfileDoctor, pk=reserved_doctor_pk)
+        form.instance.reserved_user = reserved_user
+        form.instance.reserved_doctor = reserved_doctor
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy(
+            'user_profile:create_reservation_second_step', kwargs={'pk': self.object.pk}
+        )
+
+
+class AvailableTimeSelectView(generic.UpdateView):
+    model = Reservation
+    form_class = AvailableTimeSelectForm
+    template_name = 'user_profile/create_reservation_second_step.html'
+
+    def form_valid(self, form):
+        reservation = self.get_object()
+
+        if not form.cleaned_data.get('available_time'):
+            return HttpResponseRedirect(
+                reverse('user_profile:create_reservation')
+                + f'?pk={reservation.reserved_doctor.pk}&error=no_time_selected'
+            )
+
+        existing_reservations = Reservation.objects.filter(
+            booking_date=reservation.booking_date,
+            available_time=form.cleaned_data['available_time'],
+            reserved_doctor=reservation.reserved_doctor,
+        )
+
+        if existing_reservations.exists():
+            raise ValidationError('Это время уже занято')
+
+        if form.cleaned_data['available_time']:
+            with transaction.atomic():
+                reservation.available_time = form.cleaned_data['available_time']
+                reservation.save()
+
+        return super().form_valid(form)
+
+
+class ReservationIndexView(generic.DetailView):
+    model = Reservation
+    context_object_name = 'reservation'
+    template_name = "user_profile/detail_profile_doctor.html"
+
+
+class ReservationDetailView(generic.DetailView):
+    model = Reservation
+    context_object_name = 'reservation'
+    template_name = "user_profile/detail_reservation.html"

@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    .container {
+        max-width: 800px;
+        margin: auto;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        padding: 20px;
+        background-color: #fff;
+        margin-top: 20px;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 20px;
+    }
+
+    label {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    select {
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    button {
+        background-color: #4caf50;
+        color: #fff;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #45a049;
+    }
+
+    a {
+        text-decoration: none;
+        color: #4caf50;
+        margin-top: 10px;
+        display: inline-block;
+    }
+
+    a:hover {
+        color: #45a049;
+    }
+</style>
+
+<div class="container">
+    <h2>Выбор времени бронирования</h2>
+
+    <form method="post" class="form">
+    {% csrf_token %}
+    {{ form.available_time }} {# Включаем только поле available_time #}
+    <button type="submit">Заказать талон</button>
+</form>
+
+    <a href="{% url 'user_profile:create_reservation' pk=object.reserved_doctor.pk %}">Вернуться к выбору даты</a>
+</div>
+{% endblock %}

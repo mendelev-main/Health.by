@@ -94,9 +94,20 @@
                     <div class="field-label">Возраст: {{ profile_doctor.age }} </div>
                     <div class="field-label">Номер телеона: {{ profile_doctor.phone_number }}</div>
                     <div class="field-label">Почта: {{ profile_doctor.user.email }}</div>
+                    <div class="logout-button">
+                        <a class="btn btn-danger" href="create_reservation/" role="button">Записаться</a>
+                    </div>
                     {% if request.user.id == profile_doctor.user_id %}
                         <div class="logout-button">
                             <a class="btn btn-danger" href="/accounts/logout/" role="button">Выйти из профиля</a>
                         </div>
                     {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="treatment-container">
+            <h2 class="text-center mb-4">Нет записей на ближайшее время</h2>
+
+        </div>
+    </div>
 {% endblock content %}

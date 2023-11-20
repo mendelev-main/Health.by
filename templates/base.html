@@ -55,6 +55,7 @@
                         <input type="text" name="q" class="form-control" placeholder="Поиск врача">
                     </div>
                 </form>
+
             {% endif %}
             <li class="nav-item">
                 {% if user.is_staff and user.profile_doctor.first_name %}
